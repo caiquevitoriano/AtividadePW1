@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.CachedRowSet;
+import modelo.Cliente;
 import modelo.Pedido;
 
 /**
@@ -104,7 +105,6 @@ public class PedidoDaoImpl implements interfacePedidoDao{
                         new Pedido(
                                 rowSet.getInt("id"),
                                 LocalDate.parse(rowSet.getString("data")),
-                                rowSet.getInt("cliente"),
                                 rowSet.getDouble("valor")                               
                         )
                 );
@@ -113,6 +113,7 @@ public class PedidoDaoImpl implements interfacePedidoDao{
         } catch (SQLException ex) {
             Logger.getLogger(PedidoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
     
 }

@@ -2,9 +2,11 @@ package exerciciojdbc;
 
 import controle.ClienteDaoImpl;
 import controle.Conexao;
+import controle.PedidoDaoImpl;
 import controle.interfaceClienteDao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import modelo.Cliente;
@@ -23,9 +25,67 @@ public class ExercicioJDBC {
 
         ArrayList<Cliente> clientes = new ArrayList<>();
         
-        //System.out.println(listCliente());
+          
+       
         
-        Cliente attCliente = attCliente();
+        
+            int op = 0;
+            do{
+                
+                System.out.println("O que Deseja: ");
+                System.out.println("1 - Cadastrar cliente");
+                System.out.println("2 - Listar cliente");
+                System.out.println("3 - Remover cliente");
+                System.out.println("4 - Atualizar cliente");
+                
+                System.out.println("5 - Cadastrar Pedido");
+                System.out.println("6 - Listar Pedidos");
+                System.out.println("7 - Remover Pedido");
+                System.out.println("8 - Atualizar Pedido");
+                
+                System.out.println("9 - Sair.");
+
+                op = scanner.nextInt();
+               
+                switch (op){
+                case 1:
+                    cadCliente();
+                    break;
+                case 2:
+                    listCliente();
+                    break;
+                case 3:
+                    delCliente();
+                    break;
+                case 4:
+                    attCliente();
+                    break;
+                case 5:
+                    cadPedido();
+                    break;
+                case 6:
+                    listPedido();
+                    break;
+                case 7:
+                    attPedido();
+                    break;
+                case 8:
+                    attCliente();
+                    break;
+                case 9:
+                    System.exit(0);
+                default:
+                    System.out.printf("Opçao Invalida, Tente Novamente\n");
+                    break;
+            } 
+                
+        }while (op != 9);
+                
+                
+            
+          
+            
+            
         
         //Criando a tabela cliente no banco de dados no postgre
         /* String sql1 = "DROP TABLE Pedido;"
@@ -64,6 +124,9 @@ public class ExercicioJDBC {
         System.out.println("Digite o ativo");
         cliente.setAtivo(scanner.next());  
         
+        System.out.println("Digite o Caminho da foto");
+        cliente.setFoto(scanner.next());
+        
         ClienteDaoImpl dao = new ClienteDaoImpl();
         dao.incluir(cliente);       
         
@@ -90,6 +153,9 @@ public class ExercicioJDBC {
         
         System.out.println("Digite o ativo");
         cliente.setAtivo(scanner.next());
+        
+        System.out.println("Digite o Caminho da foto");
+        cliente.setFoto(scanner.next());
         
         ClienteDaoImpl dao = new ClienteDaoImpl();
         dao.alterar(cliente);
@@ -120,29 +186,66 @@ public class ExercicioJDBC {
         
     }
     
-     private static Cliente cadPedido() throws SQLException {
+     private static Pedido cadPedido() throws SQLException {
         
-                
         Pedido pedido = new Pedido();
 
-        System.out.printf("---- Cadastro de Pedido:\n\n");        
-       
+        System.out.printf("---- Cadastro de Pedido:\n\n");
         
         
+        System.out.println("Digite o Valor do Pedido");
+        pedido.setValor(scanner.nextFloat());
+        pedido.setCliente(cliente); 
+        pedido.setData(LocalDate.now());       
         
-        System.out.println("Digite seu Documento");
-        cliente.setDocumento(scanner.next());
         
-        System.out.println("Digite seu Saldo");
-        cliente.setSaldo(scanner.nextDouble());
+        PedidoDaoImpl dao = new PedidoDaoImpl();
+        dao.incluir(pedido); 
         
-        System.out.println("Digite o ativo");
-        cliente.setAtivo(scanner.next());  
         
-        ClienteDaoImpl dao = new ClienteDaoImpl();
-        dao.incluir(cliente);       
+        return pedido;
+    }
+     
+    private static ArrayList<Pedido> listPedido(){
         
-        return cliente;
+        return new PedidoDaoImpl().listar();
+        
+    }
+    
+    private static Pedido delPedido(){
+        
+        Pedido pedido = new Pedido();
+        
+        System.out.println("Digite o ID do pedido: ");
+        pedido.setId(scanner.nextInt());
+        
+        PedidoDaoImpl dao = new PedidoDaoImpl();
+        dao.excluir(pedido);
+        
+        return pedido;  
+        
+    }
+    
+    private static Pedido attPedido(){
+        
+        Pedido pedido = new Pedido();
+        
+        pedido.setCliente(cliente); 
+        pedido.setData(LocalDate.now());
+        
+        System.out.println("Digite o Id do Pedido");
+        pedido.setId(scanner.nextInt());       
+        
+        System.out.println("Digite o Valor do Pedido");
+        pedido.setValor(scanner.nextFloat());
+               
+        
+        
+        PedidoDaoImpl dao = new PedidoDaoImpl();
+        dao.alterar(pedido); 
+        
+        
+        return pedido;
     }
     
 

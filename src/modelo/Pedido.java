@@ -21,6 +21,10 @@ public class Pedido {
         this.cliente = cliente;
         this.valor = valor;    }
 
+    public Pedido(int aInt, LocalDate parse, double aDouble) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getId() {
         return id;
     }
